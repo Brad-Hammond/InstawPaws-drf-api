@@ -17,4 +17,15 @@ class Profile(models.Model):
     image = models.ImageField(
         upload_to='images/', default='../default_profile_wxgp9p'
     )
-   
+
+    class Meta:
+        """
+        Orders profile by created at
+        """
+        ordering = ['-created_at']
+
+    def __str__(self):
+        """
+        Returns profile owners profile
+        """
+        return f"{self.owner}'s profile"
