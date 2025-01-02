@@ -26,3 +26,17 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to='images/', default='../default_post_tvgfiq', blank=True
     )
+
+    class Meta:
+        '''
+        Defines metadata for the Post model.
+        - Sets the default ordering of posts to newest first, based on the created_at field.
+        '''
+        ordering = ['-created_at']
+
+    def __str__(self):
+        '''
+        Returns a string representation of the Post instance.
+        - Combines the post ID and title for easier identification.
+        '''
+        return f'{self.id} {self.title}'
