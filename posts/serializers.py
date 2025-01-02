@@ -36,3 +36,13 @@ class PostSerializer(serializers.ModelSerializer):
                 'Image width larger than 4096px!'
             )
         return value
+    
+    def get_is_owner(self, obj):
+        """
+        Checks ownership of the post.
+        - Retrieves the current user from the request context.
+        - Compares the authenticated user with the owner of the post.
+        - Returns True if the user is the owner, otherwise False.
+        """
+        request = self.context['request']
+        return request.user == obj.owner
