@@ -60,3 +60,15 @@ class PostSerializer(serializers.ModelSerializer):
             ).first()
             return like.id if like else None
         return None
+    
+    class Meta:
+        """
+        Metadata for the PostSerializer.
+        - Specifies the Post model as the source.
+        - Defines the fields to include in the serialized output.
+        """
+        model = Post
+        fields = ['id', 'owner', 'is_owner', 'profile_id', 'profile_image',
+                  'created_at', 'updated_at', 'title', 'content', 'image',
+                  'like_id', 'likes_total', 'comments_total', 'tags',
+                  ]
