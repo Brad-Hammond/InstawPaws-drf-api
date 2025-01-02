@@ -44,3 +44,29 @@ ProfileList View:
         'followers_total',
         'following_total',
     ]
+
+class ProfileDetail(generics.RetrieveUpdateAPIView):
+    """
+ProfileDetail View:
+- Handles the retrieval and updating of a single profile instance.
+- Permissions:
+  - Uses IsOwnerOrReadOnly to ensure only the profile owner can update their profile,
+    while others can only view it.
+- Queryset:
+  - Annotates the profile with additional information:
+    - followers_total: Total number of users following the profile owner.
+    - following_total: Total number of users the profile owner is following.
+    - posts_total: Total number of posts created by the profile owner.
+  - Orders the profiles by creation date in descending order.
+- Serializer:
+  - Utilizes ProfileSerializer to serialize the profile data for API responses
+    and handle updates from API requests.
+"""
+
+    permission_classes = [IsOwnerOrReadOnly]
+    queryset = Profile.objects.annotate(
+        followers_total=Count('owner__followed', distinct=True),
+        following_total=Count('owner__following', distinct=True),
+        posts_total=Count('owner__post', distinct=True)
+    ).order_by('-created_at')
+    serializer_class = ProfileSerializer
