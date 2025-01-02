@@ -42,3 +42,10 @@ class PostList(generics.ListCreateAPIView):
         'likes_total',
         'likes__created_at',
     ]
+
+    def perform_create(self, serializer):
+        '''
+        Customizes the creation process by assigning the currently authenticated user
+        as the owner of the object being created.
+        '''
+        serializer.save(owner=self.request.user)
