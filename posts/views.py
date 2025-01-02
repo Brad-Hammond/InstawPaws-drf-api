@@ -51,6 +51,12 @@ class PostList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    '''
+    PostDetail view for managing specific posts.
+    - Allows retrieving, updating, or deleting a single post.
+    - Update and delete actions are restricted to the post owner.
+    - Read-only access is available to other users.
+    '''
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Post.objects.annotate(
